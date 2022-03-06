@@ -22,10 +22,15 @@ fi
 
 echo "DEBUG, determined RESOLVERS from /etc/resolv.conf: '$RESOLVERS'"
 
+resolver_suffix=""
+if [[ ! -z "${NO_IPV6:-}" ]]; then
+  resolver_suffix="ipv6=off"
+fi
+
 conf=""
 for ONE_RESOLVER in ${RESOLVERS}; do
 	echo "Possible resolver: $ONE_RESOLVER"
-	conf="resolver $ONE_RESOLVER; "
+	conf="resolver ${ONE_RESOLVER} ${resolver_suffix}; "
 done
 
 echo "Final chosen resolver: $conf"
